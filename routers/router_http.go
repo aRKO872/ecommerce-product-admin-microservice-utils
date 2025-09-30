@@ -48,6 +48,7 @@ func (s *ServiceRouter) ServeHTTP() {
 		}
 	}()
 	
+	log.Printf("%s server is running on %s\n", s.AppID, srv.Addr)
 	s.wg.Wait()
 }
 
