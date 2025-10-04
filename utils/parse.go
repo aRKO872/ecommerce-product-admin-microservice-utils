@@ -14,12 +14,12 @@ func ParseEnv(val interface{}) error {
 		return errors.New("value could not be set")
 	}
 
-	return loopAndAssign(&rv, "env", func(key string) string {
+	return loopAndAssign(rv, "env", func(key string) string {
 		return os.Getenv(key)
 	})
 }
 
-func loopAndAssign(rv *reflect.Value, tag string, getEnv func(string) string) error {
+func loopAndAssign(rv reflect.Value, tag string, getEnv func(string) string) error {
 	t := rv.Type()
 	for i := 0; i < rv.NumField(); i++ {
 		field := t.Field(i)

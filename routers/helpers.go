@@ -8,7 +8,7 @@ import (
 )
 
 func getEnv(cfg interface{}) {
-	if err := utils.ParseEnv(&cfg); err != nil {
+	if err := utils.ParseEnv(cfg); err != nil {
 		log.Fatal("Error parsing environment variables: ", err)
 	}
 	validator := validator.New()
