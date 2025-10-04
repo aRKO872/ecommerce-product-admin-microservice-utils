@@ -26,3 +26,9 @@ type httpConfig struct {
 	Port string `env:"PORT" validate:"required,numeric"`
 	Host string `env:"HOST" validate:"required"`
 }
+
+type grpcConfig struct {
+	Port string `env:"PORT" validate:"required,numeric"`
+	Host string `env:"HOST" validate:"required"`
+	ReqRespSize string `env:"GRPC_REQ_RESP_SIZE"`
+}
