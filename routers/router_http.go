@@ -7,21 +7,12 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-
-	"github.com/aRKO872/ecommerce-product-admin-microservice-utils/utils"
-	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
 )
 
 func (s *ServiceRouter) ServeHTTP() {
 	var cfg httpConfig
-	if err := utils.ParseEnv(&cfg); err != nil {
-		log.Fatal("Error parsing environment variables: ", err)
-	}
-	validator := validator.New()
-	if err := validator.Struct(cfg); err != nil {
-		log.Fatal("Config validation failed: ", err)
-	}
+	getEnv(&cfg)
 
 	router := mux.NewRouter()
 
