@@ -25,8 +25,8 @@ var File_inventory_msc_proto protoreflect.FileDescriptor
 
 const file_inventory_msc_proto_rawDesc = "" +
 	"\n" +
-	"\x13inventory_msc.proto\x12\vcore_engine\x1a\fcommon.proto2M\n" +
-	"\x11CoreEngineService\x128\n" +
+	"\x13inventory_msc.proto\x12\vcore_engine\x1a\fcommon.proto2L\n" +
+	"\x10InventoryService\x128\n" +
 	"\tHeartbeat\x12\x13.common.GRPCRequest\x1a\x14.common.GRPCResponse\"\x00BRZPgithub.com/aRKO872/ecommerce-product-admin-microservice-utils/grpc/inventory-mscb\x06proto3"
 
 var file_inventory_msc_proto_goTypes = []any{
@@ -34,8 +34,8 @@ var file_inventory_msc_proto_goTypes = []any{
 	(*common.GRPCResponse)(nil), // 1: common.GRPCResponse
 }
 var file_inventory_msc_proto_depIdxs = []int32{
-	0, // 0: core_engine.CoreEngineService.Heartbeat:input_type -> common.GRPCRequest
-	1, // 1: core_engine.CoreEngineService.Heartbeat:output_type -> common.GRPCResponse
+	0, // 0: core_engine.InventoryService.Heartbeat:input_type -> common.GRPCRequest
+	1, // 1: core_engine.InventoryService.Heartbeat:output_type -> common.GRPCResponse
 	1, // [1:2] is the sub-list for method output_type
 	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name

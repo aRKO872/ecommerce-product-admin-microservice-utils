@@ -20,101 +20,101 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CoreEngineService_Heartbeat_FullMethodName = "/core_engine.CoreEngineService/Heartbeat"
+	InventoryService_Heartbeat_FullMethodName = "/core_engine.InventoryService/Heartbeat"
 )
 
-// CoreEngineServiceClient is the client API for CoreEngineService service.
+// InventoryServiceClient is the client API for InventoryService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type CoreEngineServiceClient interface {
+type InventoryServiceClient interface {
 	Heartbeat(ctx context.Context, in *common.GRPCRequest, opts ...grpc.CallOption) (*common.GRPCResponse, error)
 }
 
-type coreEngineServiceClient struct {
+type inventoryServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewCoreEngineServiceClient(cc grpc.ClientConnInterface) CoreEngineServiceClient {
-	return &coreEngineServiceClient{cc}
+func NewInventoryServiceClient(cc grpc.ClientConnInterface) InventoryServiceClient {
+	return &inventoryServiceClient{cc}
 }
 
-func (c *coreEngineServiceClient) Heartbeat(ctx context.Context, in *common.GRPCRequest, opts ...grpc.CallOption) (*common.GRPCResponse, error) {
+func (c *inventoryServiceClient) Heartbeat(ctx context.Context, in *common.GRPCRequest, opts ...grpc.CallOption) (*common.GRPCResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(common.GRPCResponse)
-	err := c.cc.Invoke(ctx, CoreEngineService_Heartbeat_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, InventoryService_Heartbeat_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// CoreEngineServiceServer is the server API for CoreEngineService service.
-// All implementations must embed UnimplementedCoreEngineServiceServer
+// InventoryServiceServer is the server API for InventoryService service.
+// All implementations must embed UnimplementedInventoryServiceServer
 // for forward compatibility.
-type CoreEngineServiceServer interface {
+type InventoryServiceServer interface {
 	Heartbeat(context.Context, *common.GRPCRequest) (*common.GRPCResponse, error)
-	mustEmbedUnimplementedCoreEngineServiceServer()
+	mustEmbedUnimplementedInventoryServiceServer()
 }
 
-// UnimplementedCoreEngineServiceServer must be embedded to have
+// UnimplementedInventoryServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedCoreEngineServiceServer struct{}
+type UnimplementedInventoryServiceServer struct{}
 
-func (UnimplementedCoreEngineServiceServer) Heartbeat(context.Context, *common.GRPCRequest) (*common.GRPCResponse, error) {
+func (UnimplementedInventoryServiceServer) Heartbeat(context.Context, *common.GRPCRequest) (*common.GRPCResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Heartbeat not implemented")
 }
-func (UnimplementedCoreEngineServiceServer) mustEmbedUnimplementedCoreEngineServiceServer() {}
-func (UnimplementedCoreEngineServiceServer) testEmbeddedByValue()                           {}
+func (UnimplementedInventoryServiceServer) mustEmbedUnimplementedInventoryServiceServer() {}
+func (UnimplementedInventoryServiceServer) testEmbeddedByValue()                          {}
 
-// UnsafeCoreEngineServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to CoreEngineServiceServer will
+// UnsafeInventoryServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to InventoryServiceServer will
 // result in compilation errors.
-type UnsafeCoreEngineServiceServer interface {
-	mustEmbedUnimplementedCoreEngineServiceServer()
+type UnsafeInventoryServiceServer interface {
+	mustEmbedUnimplementedInventoryServiceServer()
 }
 
-func RegisterCoreEngineServiceServer(s grpc.ServiceRegistrar, srv CoreEngineServiceServer) {
-	// If the following call pancis, it indicates UnimplementedCoreEngineServiceServer was
+func RegisterInventoryServiceServer(s grpc.ServiceRegistrar, srv InventoryServiceServer) {
+	// If the following call pancis, it indicates UnimplementedInventoryServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&CoreEngineService_ServiceDesc, srv)
+	s.RegisterService(&InventoryService_ServiceDesc, srv)
 }
 
-func _CoreEngineService_Heartbeat_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _InventoryService_Heartbeat_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(common.GRPCRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CoreEngineServiceServer).Heartbeat(ctx, in)
+		return srv.(InventoryServiceServer).Heartbeat(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CoreEngineService_Heartbeat_FullMethodName,
+		FullMethod: InventoryService_Heartbeat_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CoreEngineServiceServer).Heartbeat(ctx, req.(*common.GRPCRequest))
+		return srv.(InventoryServiceServer).Heartbeat(ctx, req.(*common.GRPCRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// CoreEngineService_ServiceDesc is the grpc.ServiceDesc for CoreEngineService service.
+// InventoryService_ServiceDesc is the grpc.ServiceDesc for InventoryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var CoreEngineService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "core_engine.CoreEngineService",
-	HandlerType: (*CoreEngineServiceServer)(nil),
+var InventoryService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "core_engine.InventoryService",
+	HandlerType: (*InventoryServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Heartbeat",
-			Handler:    _CoreEngineService_Heartbeat_Handler,
+			Handler:    _InventoryService_Heartbeat_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

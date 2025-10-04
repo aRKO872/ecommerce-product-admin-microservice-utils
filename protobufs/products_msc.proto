@@ -6,6 +6,6 @@ package core_engine;
 
 import "common.proto";
 
-service CoreEngineService {
+service ProductsService {
     rpc Heartbeat(common.GRPCRequest) returns (common.GRPCResponse){}
 }
