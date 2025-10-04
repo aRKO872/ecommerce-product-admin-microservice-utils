@@ -21,7 +21,7 @@ func (s *ServiceRouter) ServeGRPC(register func(s *grpc.Server), interceptorList
 	addr := cfg.Host + ":" + cfg.Port
 	listener, err := net.Listen("tcp", addr)
 	if err != nil {
-		log.Fatal("failed to listen to addr : %s", err.Error)
+		log.Fatalf("failed to listen to addr : %s", err.Error())
 	}
 
 	reqSize, err := strconv.Atoi(cfg.ReqRespSize)

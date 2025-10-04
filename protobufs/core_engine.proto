@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option go_package = "github.com/aRKO872/ecommerce-product-admin-microservice-utils/grpc/core-engine";
+
+package core_engine;
+
+import "common.proto";
+
+service CoreEngineService {
+    rpc Heartbeat(common.GRPCRequest) returns (common.GRPCResponse){}
+}
