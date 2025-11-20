@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/aRKO872/ecommerce-product-admin-microservice-utils/literals"
+	"github.com/aRKO872/ecommerce-product-admin-microservice-utils/utils"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	"google.golang.org/grpc"
@@ -16,7 +17,7 @@ import (
 
 func (s *ServiceRouter) ServeGRPC(register func(s *grpc.Server), interceptorList ...grpc.UnaryServerInterceptor) {
 	var cfg grpcConfig
-	getEnv(&cfg)
+	utils.GetEnv(&cfg)
 
 	addr := cfg.Host + ":" + cfg.Port
 	listener, err := net.Listen("tcp", addr)
@@ -48,6 +49,12 @@ func (s *ServiceRouter) ServeGRPC(register func(s *grpc.Server), interceptorList
 	go func ()  {
 		log.Printf("gRPC server listening at %v\n", listener.Addr().String())
 		if err := gserver.Serve(listener); err != nil {
+			if s.IsKafkaEnabled {
+				close(s.pubsubDone)
+				noOfUnflushedMessages := s.PubsubProducer.pubsubProducer.Flush(getFlushTimeout(cfg.KafkaFlushTimeout))
+				log.Printf("Number of unflushed Kafka messages: %d\n", noOfUnflushedMessages)
+				s.PubsubProducer.pubsubProducer.Close()
+			}
 			log.Fatalf("failed to serve gRPC server: %v", err.Error())
 		}
 	}()

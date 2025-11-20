@@ -5,14 +5,21 @@ import (
 	"sync"
 
 	"github.com/gorilla/mux"
+	"gopkg.in/confluentinc/confluent-kafka-go.v1/kafka"
 )
 
+type ConsumerEventFunc func(ev *kafka.Message) error
+
 type ServiceRouter struct {
-	AppID       string
-	Middlewares []mux.MiddlewareFunc
-	Routes      []CommonRouter
-	wg          sync.WaitGroup
-	Shutdown    func() error
+	AppID          string
+	Middlewares    []mux.MiddlewareFunc
+	Routes         []CommonRouter
+	wg             sync.WaitGroup
+	Shutdown       func() error
+	PubsubProducer *KafkaProducer
+	PubsubConsumer *kafka.Consumer
+	IsKafkaEnabled bool
+	pubsubDone     chan struct{}
 }
 
 type CommonRouter struct {
@@ -23,12 +30,21 @@ type CommonRouter struct {
 }
 
 type httpConfig struct {
-	Port string `env:"PORT" validate:"required,numeric"`
-	Host string `env:"HOST" validate:"required"`
+	Port              string `env:"PORT" validate:"required,numeric"`
+	Host              string `env:"HOST" validate:"required"`
+	KafkaFlushTimeout int    `env:"KAFKA_FLUSH_TIMEOUT_MS" validate:"numeric"`
 }
 
 type grpcConfig struct {
-	Port string `env:"PORT" validate:"required,numeric"`
-	Host string `env:"HOST" validate:"required"`
-	ReqRespSize string `env:"GRPC_REQ_RESP_SIZE"`
+	Port              string `env:"PORT" validate:"required,numeric"`
+	Host              string `env:"HOST" validate:"required"`
+	ReqRespSize       string `env:"GRPC_REQ_RESP_SIZE"`
+	KafkaFlushTimeout int    `env:"KAFKA_FLUSH_TIMEOUT_MS" validate:"numeric"`
+}
+
+type KafkaConfig struct {
+	Brokers       string `env:"KAFKA_BROKERS" validate:"required"`
+	ConsumerGroup string `env:"KAFKA_CONSUMER_GROUP"`
+	Topics        string `env:"KAFKA_TOPICS"`
+	Timeout       int    `env:"KAFKA_TIMEOUT_MS"`
 }
