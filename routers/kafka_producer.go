@@ -22,8 +22,6 @@ func NewKafkaProducer() (*KafkaProducer, error) {
 		utils.GetEnv(&kafkaConfig)
 		if kafkaProducer, err := kafka.NewProducer(&kafka.ConfigMap{
 			"bootstrap.servers": kafkaConfig.Brokers,
-			"security.protocol": "SASL_SSL",
-			"sasl.mechanisms":   "PLAIN",
 			"acks":              "all", 
 		}); err != nil {
 			return nil, err

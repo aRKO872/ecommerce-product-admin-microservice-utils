@@ -15,8 +15,6 @@ func (s *ServiceRouter) InitKafkaConsumer(
 
 	if kafkaConsumer, err := kafka.NewConsumer(&kafka.ConfigMap{
         "bootstrap.servers": kafkaConfig.Brokers,
-        "security.protocol": "SASL_SSL",
-        "sasl.mechanisms":   "PLAIN",
         "group.id":          kafkaConfig.ConsumerGroup,
         "auto.offset.reset": "earliest",
 	}); err != nil {
