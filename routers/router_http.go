@@ -7,12 +7,14 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/aRKO872/ecommerce-product-admin-microservice-utils/utils"
 	"github.com/gorilla/mux"
 )
 
 func (s *ServiceRouter) ServeHTTP() {
 	var cfg httpConfig
-	getEnv(&cfg)
+	utils.GetEnv(&cfg)
 
 	router := mux.NewRouter()
 
@@ -26,6 +28,12 @@ func (s *ServiceRouter) ServeHTTP() {
 
 	srv := s.serveHTTP(cfg, router)
 	s.Shutdown = func() error {
+		if s.IsKafkaEnabled {
+			close(s.pubsubDone)
+			noOfUnflushedMessages := s.PubsubProducer.pubsubProducer.Flush(getFlushTimeout(cfg.KafkaFlushTimeout))
+			log.Printf("Number of unflushed Kafka messages: %d\n", noOfUnflushedMessages)
+			s.PubsubProducer.pubsubProducer.Close()
+		}
 		return srv.Shutdown(context.Background())
 	}
 
