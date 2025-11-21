@@ -50,3 +50,13 @@ func PopulateContextWithGRPCMetadata(
 	}
 	return ctx
 }
+
+func GetGRPCMetadataWithContext(
+	ctx context.Context,
+) map[string]string {
+	grpcMeta := make(map[string]string)
+	if correlationId, ok := ctx.Value(literals.ContextKeyCorrelationID).(string); ok {
+		grpcMeta[literals.ContextKeyCorrelationID] = correlationId
+	}
+	return grpcMeta
+}
