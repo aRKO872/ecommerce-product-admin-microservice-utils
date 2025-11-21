@@ -40,3 +40,13 @@ func GetCurrentTime() string {
 		return currentTimeIndia.Format(time.RFC3339)
 	}
 }
+
+func PopulateContextWithGRPCMetadata(
+	ctx context.Context,
+	metadata map[string]string,
+) context.Context {
+	for metKey, metVal := range metadata {
+		ctx = context.WithValue(ctx, metKey, metVal)
+	}
+	return ctx
+}
